@@ -22,6 +22,28 @@ namespace ATR.API.Controllers
             return await dbContext.Rooms.ToListAsync();
         }
 
+        [HttpGet("GetRoomById")]
+        public async Task<IActionResult> Get(int id)
+        {
+            try
+            {
+                var room = await dbContext.Rooms.FindAsync(id);
+                if(room != null)
+                {
+                    return Ok(room);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Room room) //FromBody - из RAW текста, FromForm - из формы с инпутами
         {
